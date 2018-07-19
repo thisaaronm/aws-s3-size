@@ -92,7 +92,7 @@ validate_bucket_name
 
 ## Assign bucket object contents to bucket_root
 bucket_root=$(aws s3 ls s3://$bucket --summarize)
-#get_bucket_dirs ## WIP
+get_bucket_dirs ## WIP
 
 ## Assign files (not directories) to var objects
 objects=$(echo "$bucket_root" | grep '-' | awk '{print $3}')
