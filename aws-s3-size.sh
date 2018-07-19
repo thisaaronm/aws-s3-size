@@ -37,10 +37,10 @@ validate_bucket_name() {
 
 ## Assign directories in bucket_root to bucket_dirs
 get_bucket_dirs() {
-  bucket_dirs=$(echo "$bucket_root" | grep ' PRE ' | sed 's/^[[:space:]]*//g' | sed 's/\/$//g' | awk '{print $2}')
+  bucket_dirs=$(echo "$bucket_root" | grep ' PRE ' | sed 's/^[[:space:]]*//g' | awk '{print $2}')
   echo
-  echo "The following directories were found: "
-  echo "$bucket_dirs"
+  # echo "The following directories were found: "
+  # echo "$bucket_dirs"
 }
 
 ## Get total bytes of all files
@@ -93,6 +93,9 @@ validate_bucket_name
 ## Assign bucket object contents to bucket_root
 bucket_root=$(aws s3 ls s3://$bucket --summarize)
 get_bucket_dirs ## WIP
+for i in $bucket_dirs; do
+  echo "$i: $(aws s3 ls s3://$bucket/$i --human-readable --summarize | grep 'Total Size' | sed 's/Total Size: //g')"
+done
 
 ## Assign files (not directories) to var objects
 objects=$(echo "$bucket_root" | grep '-' | awk '{print $3}')
